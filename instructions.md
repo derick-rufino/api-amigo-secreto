@@ -18,9 +18,10 @@
 
 ## Minhas rotas
 
-- `POST /participants` – adiciona um participante.
-- `GET /participants` – lista todos os participantes.
-- `DELETE /participants/:id` – remove um participante.
-- `POST /draw` – realiza o sorteio e salva os pares.
-- `GET /draw/results` – retorna quem tirou quem (visão admin).
-- `GET /draw/:participantId` – retorna apenas o amigo secreto de um participante (visão individual).
+- `POST /participantes` – adiciona um participante.
+- `GET /participantes` – lista todos os participantes.
+- `DELETE /participantes/:id` – remove um participante.
+---
+- `POST /sorteio` – realiza o sorteio e salva os pares.
+- `GET /sorteio/results` – retorna quem tirou quem (visão admin).
+- `GET /sorteio/:participanteId` – retorna apenas o amigo secreto de um participante (visão individual).
