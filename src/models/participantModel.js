@@ -1,28 +1,30 @@
-participantes = [
+participants = [
   { id: 1, nome: "Ana", amigoSecreto: "" },
   { id: 2, nome: "Clara", amigoSecreto: "" },
   { id: 3, nome: "Derick", amigoSecreto: "" },
 ];
 
-function getAllParticipantes() {
-  return participantes;
+function getAllParticipants() {
+  return participants;
 }
 
-function addParticipante() {
-  const newParticipante = { id: participantes.length + 1, nome };
-  participantes.push(newParticipante);
-  return newParticipante;
+function getParticipantById(id) {
+  return participants.find((p) => p.id === id);
 }
 
-function removeParticipante(id) {
-  const indice = participantes.findIndex(
-    (participante) => participante.id === id
-  );
+function addParticipant(nome) {
+  const newParticipant = { id: participants.length + 1, nome, amigoSecreto: null };
+  participants.push(newParticipant);
+  return newParticipant;
+}
+
+function removeParticipant(id) {
+  const indice = participants.findIndex((participant) => participant.id === id);
   if (indice === -1) {
     return null;
   }
 
-  return participantes.splice(indice, 1)[0];
+  return participants.splice(indice, 1)[0];
 }
 
-module.exports = { getAllParticipantes, addParticipante, removeParticipante };
+module.exports = { getAllParticipants, getParticipantById, addParticipant, removeParticipant };

@@ -1,24 +1,40 @@
 const {
-  getAllParticipantes,
-  addParticipante,
-  removeParticipante,
-} = require("../models/userModel");
+  getAllParticipants,
+  addParticipant,
+  removeParticipant,
+} = require("../models/participantModel");
 
-function listarParticipantes(req, res) {
-  const participantes = getAllParticipantes();
-  res.json(participantes);
+function listarParticipants(req, res) {
+  const jwt = require("jsonwebtoken");
+  const JWT_SECRET = process.env.JWT_SECRET || "sua_chave_secreta_aqui";
+
+  const participants = getAllParticipants();
+
+  // Gerar um token de teste direto quando fizer um GET em /participants
+  const tokenDeTeste = jwt.sign(
+    { id: 1, email: "admin@test.com", nome: "Admin" },
+    JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+  const mensagemInstrucao = "Use este token em Authorization: Bearer TOKEN, para usar a rota DELETE /participants/:id";
+  res.json({
+    participants: participants,
+    tokenDeTeste: tokenDeTeste,
+    instrucoes: mensagemInstrucao,
+  });
+
 }
 
-function adicionarParticipante(req, res) {
+function adicionarParticipant(req, res) {
   const { nome } = req.body;
   if (!nome) {
     return res.status(400).json({ error: "Nome é obrigatório" });
   }
-  const novo = addParticipante(nome);
+  const novo = addParticipant(nome);
   res.status(201).json(novo);
 }
 
-function removerParticipante(req, res) {
+function removerParticipant(req, res) {
   const id = parseInt(req.params.id);
 
   if (isNaN(id)) {
@@ -28,9 +44,9 @@ function removerParticipante(req, res) {
     });
   }
 
-  const userRemovido = removeParticipante(id);
+  const participantRemovido = removeParticipant(id);
 
-  if (!userRemovido) {
+  if (!participantRemovido) {
     return res.status(404).json({
       erro: "Usuário não encontrado",
     });
@@ -38,12 +54,12 @@ function removerParticipante(req, res) {
 
   res.json({
     mensagem: "Usuário removido",
-    usuario: userRemovido,
+    participante: participantRemovido,
   });
 }
 
 module.exports = {
-  listarParticipantes,
-  adicionarParticipante,
-  removerParticipante,
+  listarParticipants,
+  adicionarParticipant,
+  removerParticipant,
 };
